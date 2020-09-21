@@ -8,12 +8,16 @@ import {Bug} from '../bug';
   styleUrls: ['./bug-list.component.scss']
 })
 export class BugListComponent implements OnInit {
-  bugs: Bug[];
+  bugs: Bug[] = [];
 
   constructor(private bugService: BugReportSystemService) { }
 
   ngOnInit(): void {
-    this.bugService.getBugs().subscribe(bugList => this.bugs = bugList);
+    this.bugs = this.getBugs();
+  }
+
+  getBugs(): Bug[] { 
+    return this.bugService.getBugs().subscribe(bugList => this.bugs = bugList);
   }
 
 }
