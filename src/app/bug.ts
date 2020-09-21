@@ -1,4 +1,5 @@
 export interface Bug {
+
   id: string;
   title: string;
   description: string;
@@ -8,4 +9,5 @@ export interface Bug {
   updatedAt: string;
   createdAt: string;
   comments: Comment[];
+
 }
