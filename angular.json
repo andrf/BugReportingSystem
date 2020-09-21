@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "bug-reporting-system"
+    }
+  },
+  "defaultProject": "bug-reporting-system",
+  "cli": {
+    "analytics": false
+  }
 }
