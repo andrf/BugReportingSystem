@@ -9,6 +9,10 @@ import {Bug} from '../bug';
 })
 export class BugListComponent implements OnInit {
   bugs: Bug[] = [];
+  sorting = {
+    column: '',
+    isAsc: true
+  };
 
   constructor(private bugService: BugReportSystemService) { }
 
@@ -20,4 +24,48 @@ export class BugListComponent implements OnInit {
     this.bugService.getBugs().subscribe(bugList => this.bugs = bugList);
   }
 
+  sort(column: string): void {
+    if (this.sorting.column === column) {
+      this.sorting.isAsc = !this.sorting.isAsc;
+    } else {
+      this.sorting = {
+        column: column,
+        isAsc: true
+      }
+    }
+
+    this.sorting.isAsc ? this.sortAsc(column) : this.sortDesc(column);
+  }
+
+  sortAsc(column: string): void {
+    this.bugs.sort((a, b) => {
+      const sortA = (column === 'priority') ? a[column] : a[column].toUpperCase();
+      const sortB = (column === 'priority') ? b[column] : b[column].toUpperCase();
+      if (sortA < sortB) {
+        return -1;
+      }
+
+      if (sortA > sortB) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
+
+  sortDesc(column: string): void {
+    this.bugs.sort((a, b) => {
+      const sortA = (column === 'priority') ? a[column] : a[column].toUpperCase();
+      const sortB = (column === 'priority') ? b[column] : b[column].toUpperCase();
+      if (sortA > sortB) {
+        return -1;
+      }
+
+      if (sortA < sortB) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
 }

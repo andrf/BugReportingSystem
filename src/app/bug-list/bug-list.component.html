@@ -1,11 +1,21 @@
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Title</th>
-      <th scope="col">Priority</th>
-      <th scope="col">Reporter</th>
-      <th scope="col">Date Created</th>
-      <th scope="col">Status</th>
+      <th scope="col" (click)="sort('title')">Title
+        <app-caret [isAsc]="sorting.isAsc" [isSorted]="sorting.column === 'title'"></app-caret>
+      </th>
+      <th scope="col" (click)="sort('priority')">Priority
+        <app-caret [isAsc]="sorting.isAsc" [isSorted]="sorting.column === 'priority'"></app-caret>
+      </th>
+      <th scope="col" (click)="sort('reporter')">Reporter
+        <app-caret [isAsc]="sorting.isAsc" [isSorted]="sorting.column === 'reporter'"></app-caret>
+      </th>
+      <th scope="col" (click)="sort('createdAt')">Date Created
+        <app-caret [isAsc]="sorting.isAsc" [isSorted]="sorting.column === 'createdAt'"></app-caret>
+      </th>
+      <th scope="col" (click)="sort('status')">Status
+        <app-caret [isAsc]="sorting.isAsc" [isSorted]="sorting.column === 'status'"></app-caret>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -13,7 +23,7 @@
       <td>{{bug.title}}</td>
       <td>{{bug.priority}}</td>
       <td>{{bug.reporter}}</td>
-      <td>{{bug.createdAt | date}}</td>
+      <td>{{bug.createdAt | date:'d/M/yy, h:mm a' }}</td>
       <td>{{bug.status}}</td>
     </tr>
   </tbody>
