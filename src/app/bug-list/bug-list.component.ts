@@ -39,11 +39,13 @@ export class BugListComponent implements OnInit {
 
   sortAsc(column: string): void {
     this.bugs.sort((a, b) => {
-      if (a[column] < b[column]) {
+      const sortA = (column === 'priority') ? a[column] : a[column].toUpperCase();
+      const sortB = (column === 'priority') ? b[column] : b[column].toUpperCase();
+      if (sortA < sortB) {
         return -1;
       }
 
-      if (a[column] > b[column]) {
+      if (sortA > sortB) {
         return 1;
       }
 
@@ -53,11 +55,13 @@ export class BugListComponent implements OnInit {
 
   sortDesc(column: string): void {
     this.bugs.sort((a, b) => {
-      if (a[column] > b[column]) {
+      const sortA = (column === 'priority') ? a[column] : a[column].toUpperCase();
+      const sortB = (column === 'priority') ? b[column] : b[column].toUpperCase();
+      if (sortA > sortB) {
         return -1;
       }
 
-      if (a[column] < b[column]) {
+      if (sortA < sortB) {
         return 1;
       }
 
