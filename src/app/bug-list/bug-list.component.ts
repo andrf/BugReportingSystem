@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BugReportSystemService} from '../bug-report-system.service';
 import {Bug} from '../bug';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-bug-list',
@@ -14,7 +15,7 @@ export class BugListComponent implements OnInit {
     isAsc: true
   };
 
-  constructor(private bugService: BugReportSystemService) { }
+  constructor(private bugService: BugReportSystemService, private router: Router) { }
 
   ngOnInit(): void {
     this.getBugs();
@@ -29,9 +30,9 @@ export class BugListComponent implements OnInit {
       this.sorting.isAsc = !this.sorting.isAsc;
     } else {
       this.sorting = {
-        column: column,
+        column,
         isAsc: true
-      }
+      };
     }
 
     this.sorting.isAsc ? this.sortAsc(column) : this.sortDesc(column);
@@ -67,5 +68,9 @@ export class BugListComponent implements OnInit {
 
       return 0;
     });
+  }
+
+  createNewBug(): void {
+    this.router.navigate(['/bug']);
   }
 }
