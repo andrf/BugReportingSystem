@@ -3,7 +3,7 @@
   <div class="form-group">
     <label for="inputTitle">Title</label>
     <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" formControlName="title">
-    <label *ngIf="newBugForm?.get('title')?.errors?.required && (newBugForm?.get('title')?.dirty || newBugForm?.get('title')?.touched)" class="alert alert-danger"> Title is required.</label>
+    <label *ngIf="newBugForm?.get('title')?.errors?.required && (newBugForm?.get('title')?.dirty || newBugForm?.get('title')?.touched)" class="error"> *Title is required.</label>
   </div>
 
   <div class="form-group">
@@ -14,7 +14,7 @@
       <option value=1 >Major</option>
       <option value=0 >Critical</option>
     </select>
-    <label *ngIf="newBugForm?.get('priority')?.errors?.required && (newBugForm?.get('priority')?.dirty || newBugForm?.get('priority')?.touched)" class="alert alert-danger"> Priority is required.</label>
+    <label *ngIf="newBugForm?.get('priority')?.errors?.required && (newBugForm?.get('priority')?.dirty || newBugForm?.get('priority')?.touched)" class="error"> *Priority is required.</label>
   </div>
 
   <div class="form-group">
@@ -25,7 +25,7 @@
       <option value="PO">PO</option>
       <option value="DEV">DEV</option>
     </select>
-    <label *ngIf="newBugForm?.get('reporter')?.errors?.required && (newBugForm?.get('reporter')?.dirty || newBugForm?.get('reporter')?.touched)" class="alert alert-danger"> Reporter is required.</label>
+    <label *ngIf="newBugForm?.get('reporter')?.errors?.required && (newBugForm?.get('reporter')?.dirty || newBugForm?.get('reporter')?.touched)" class="error"> *Reporter is required.</label>
   </div>
 
   <div class="form-group">
@@ -36,13 +36,13 @@
       <option value="Done">Done</option>
       <option value="Reject">Reject</option>
     </select>
-    <label *ngIf="newBugForm?.get('status')?.errors?.required && (newBugForm?.get('status')?.dirty || newBugForm?.get('status')?.touched)" class="alert alert-danger"> Status is required.</label>
+    <label *ngIf="newBugForm?.get('status')?.errors?.required && (newBugForm?.get('status')?.dirty || newBugForm?.get('status')?.touched)" class="error"> *Status is required.</label>
   </div>
 
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Description</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
-    <label *ngIf="newBugForm?.get('description')?.errors?.required && (newBugForm?.get('description')?.dirty || newBugForm?.get('description')?.touched)" class="alert alert-danger"> Description is required.</label>
+    <label *ngIf="newBugForm?.get('description')?.errors?.required && (newBugForm?.get('description')?.dirty || newBugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
   </div>
 
   <button type="submit" class="btn btn-primary btn-block" [disabled]="newBugForm.invalid">Create</button>
