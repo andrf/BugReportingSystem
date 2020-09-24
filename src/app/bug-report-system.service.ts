@@ -12,7 +12,7 @@ export class BugReportSystemService {
   }
 
   getBugs(): Observable<Bug[]> {
-    return this.http.get<Bug[]>('https://bug-report-system-server.herokuapp.com/bugs');
+    return this.http.get<Bug[]>('https://bug-report-system-server.herokuapp.com/bugs?size=1000');
   }
 
   postBugs(bug: Bug): Observable<any> {

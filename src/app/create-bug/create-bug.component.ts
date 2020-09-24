@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BugReportSystemService} from '../bug-report-system.service';
 import {Bug} from '../bug';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-bug',
@@ -11,7 +12,7 @@ import {Bug} from '../bug';
 export class CreateBugComponent implements OnInit {
   public newBugForm: FormGroup;
 
-  constructor(private bugService: BugReportSystemService) {
+  constructor(private bugService: BugReportSystemService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -41,5 +42,7 @@ export class CreateBugComponent implements OnInit {
     console.log(bug);
 
     this.newBugForm.reset();
+
+    this.router.navigate(['/']);
   }
 }
