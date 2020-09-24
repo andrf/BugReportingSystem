@@ -5,8 +5,10 @@ import { AppComponent } from './app.component';
 import { BugListComponent } from './bug-list/bug-list.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CaretComponent } from './caret/caret.component';
+import { CreateBugComponent } from './create-bug/create-bug.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { CaretComponent } from './caret/caret.component';
     BugListComponent,
     HeaderComponent,
     FooterComponent,
-    CaretComponent
+    CaretComponent,
+    CreateBugComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
