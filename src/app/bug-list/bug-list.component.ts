@@ -73,4 +73,9 @@ export class BugListComponent implements OnInit {
   createNewBug(): void {
     this.router.navigate(['/bug']);
   }
+
+  EditBug(bugId: string): void {
+    this.router.navigate(['/bug', bugId]);
+  }
+
 }

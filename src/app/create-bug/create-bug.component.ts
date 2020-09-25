@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {BugReportSystemService} from '../bug-report-system.service';
 import {Bug} from '../bug';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-bug',
@@ -10,39 +10,82 @@ import {Router} from "@angular/router";
   styleUrls: ['./create-bug.component.scss']
 })
 export class CreateBugComponent implements OnInit {
-  public newBugForm: FormGroup;
+  bug = {} as Bug;
+  public bugId: null;
+  public BugForm: FormGroup;
+  formTitle = 'Create a new';
+  clearForm = 'Reset';
+  onCreateStatus = true;
 
-  constructor(private bugService: BugReportSystemService, private router: Router) {
+  constructor(private bugService: BugReportSystemService, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.initializeNewBugForm();
+    if (this.activatedRoute.snapshot.data.bug !== undefined) {
+      this.bug = this.activatedRoute.snapshot.data.bug;
+      this.formTitle = 'Edit ';
+      this.clearForm = 'Cancel';
+      this.onCreateStatus = false;
+    }
+    this.initializeBugForm();
   }
 
-  private initializeNewBugForm(): void {
-    this.newBugForm = new FormGroup({
-      title: new FormControl(null, Validators.required),
-      priority: new FormControl(null, Validators.required),
-      reporter: new FormControl(null, Validators.required),
-      status: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required)
+  private initializeBugForm(): void {
+    this.BugForm = new FormGroup({
+      title: new FormControl(this.bug.title, Validators.required),
+      priority: new FormControl(this.bug.priority, Validators.required),
+      reporter: new FormControl(this.bug.reporter, Validators.required),
+      status: new FormControl(this.bug.status, Validators.required),
+      description: new FormControl(this.bug.description, Validators.required)
     });
   }
 
-  public createBug(): void {
-    let bug = {} as Bug;
+  public submitBug(): void {
 
-    bug.title = this.newBugForm.get('title').value;
-    bug.priority = this.newBugForm.get('priority').value;
-    bug.reporter = this.newBugForm.get('reporter').value;
-    bug.status = this.newBugForm.get('status').value;
-    bug.description = this.newBugForm.get('description').value;
+    this.bug.title = this.BugForm.get('title').value;
+    this.bug.priority = this.BugForm.get('priority').value;
+    this.bug.reporter = this.BugForm.get('reporter').value;
+    this.bug.status = this.BugForm.get('status').value;
+    this.bug.description = this.BugForm.get('description').value;
 
-    this.bugService.postBugs(bug).subscribe(results => bug = results);
-    console.log(bug);
+    (this.onCreateStatus) ? this.createBug() : this.editBug();
+}
 
-    this.newBugForm.reset();
-
-    this.router.navigate(['/']);
+  reloadForm(): void {
+    this.bug = this.activatedRoute.snapshot.data.bug;
+    this.BugForm.patchValue({
+      title: this.bug.title,
+      priority: this.bug.priority,
+      reporter: this.bug.reporter,
+      status: this.bug.status,
+      description: this.bug.description
+    });
   }
+
+  createBug(): void {
+    this.bugService.postBugs(this.bug).subscribe(
+      () => {
+        console.log('Bug created successfully');
+        this.router.navigate(['/']);
+      },
+      error => {
+        console.log('Error creating bug', error);
+      }
+    );
+  }
+
+  editBug(): void {
+    this.bugService.putBugs(this.bug).subscribe(
+      () => {
+        console.log('Bug created successfully');
+        this.router.navigate(['/']);
+      },
+      error => {
+        console.log('Error creating bug', error);
+      }
+    );
+  }
+
+
+
 }

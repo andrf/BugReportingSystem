@@ -1,6 +1,7 @@
-<div>
-  <button (click)="createNewBug()"> Report Bug </button>
+<div class="container d-flex justify-content-left">
+  <button class="btn btn-primary" (click)="createNewBug()"> Report Bug </button>
 </div>
+<hr>
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -19,6 +20,7 @@
       <th scope="col" (click)="sort('status')">Status
         <app-caret [isAsc]="sorting.isAsc" [isSorted]="sorting.column === 'status'"></app-caret>
       </th>
+      <th scope="col" ></th>
     </tr>
   </thead>
   <tbody>
@@ -28,6 +30,7 @@
       <td>{{bug.reporter}}</td>
       <td>{{bug.createdAt | date:'d/M/yy, h:mm a' }}</td>
       <td>{{bug.status}}</td>
+      <td> <button class="btn btn-info" (click)="EditBug(bug.id)"> Edit Bug </button></td>
     </tr>
   </tbody>
 </table>
