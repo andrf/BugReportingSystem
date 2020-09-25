@@ -81,4 +81,8 @@ export class BugListComponent implements OnInit {
   bugListExist(): boolean {
     return this.bugs !== null;
   }
+
+  EditBug(bugId: string): void {
+    this.router.navigate(['/bug', bugId]);
+  }
 }
