@@ -48,11 +48,8 @@ export class CreateBugComponent implements OnInit {
     this.bug.status = this.BugForm.get('status').value;
     this.bug.description = this.BugForm.get('description').value;
 
-    // tslint:disable-next-line:max-line-length
-    (this.onCreateStatus) ? this.bugService.postBugs(this.bug).subscribe(results => this.bug = results) : this.bugService.putBugs(this.bug, this.bug.id).subscribe(results => console.log(results));
-
-    this.router.navigate(['/']);
-  }
+    (this.onCreateStatus) ? this.createBug() : this.editBug();
+}
 
   reloadForm(): void {
     this.bug = this.activatedRoute.snapshot.data.bug;
@@ -62,10 +59,33 @@ export class CreateBugComponent implements OnInit {
       reporter: this.bug.reporter,
       status: this.bug.status,
       description: this.bug.description
-  });
+    });
   }
 
-  goHome(): void {
-    this.router.navigate(['/']);
+  createBug(): void {
+    this.bugService.postBugs(this.bug).subscribe(
+      () => {
+        console.log('Bug created successfully');
+        this.router.navigate(['/']);
+      },
+      error => {
+        console.log('Error creating bug', error);
+      }
+    );
   }
+
+  editBug(): void {
+    this.bugService.putBugs(this.bug).subscribe(
+      () => {
+        console.log('Bug created successfully');
+        this.router.navigate(['/']);
+      },
+      error => {
+        console.log('Error creating bug', error);
+      }
+    );
+  }
+
+
+
 }

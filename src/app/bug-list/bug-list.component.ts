@@ -18,7 +18,6 @@ export class BugListComponent implements OnInit {
   constructor(private bugService: BugReportSystemService, private router: Router) { }
 
   ngOnInit(): void {
-   // document.body.classList.add('bg-img');
     this.getBugs();
   }
 

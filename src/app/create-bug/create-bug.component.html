@@ -1,6 +1,5 @@
 <h4 >{{formTitle}} bug</h4>
 <form [formGroup]="BugForm" (ngSubmit)="submitBug()">
-  <button type="button" class="btn  btn-secondary btn-block" (click)="goHome();">Back</button>
   <div class="form-group">
     <label for="inputTitle">Title</label>
     <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" formControlName="title">
@@ -11,9 +10,9 @@
     <label for="inputPriority">Priority</label>
     <select class="form-control" id="inputPriority" formControlName="priority">
       <option value=null selected>Select priority</option>
-      <option value=2 >Minor</option>
-      <option value=1 >Major</option>
-      <option value=0 >Critical</option>
+      <option value=1 >Minor</option>
+      <option value=2 >Major</option>
+      <option value=3 >Critical</option>
     </select>
     <label *ngIf="BugForm?.get('priority')?.errors?.required && (BugForm?.get('priority')?.dirty || BugForm?.get('priority')?.touched)" class="error"> *Priority is required.</label>
   </div>
@@ -33,10 +32,9 @@
     <label for="inputStatus">Status</label>
     <select class="form-control" id="inputStatus" formControlName="status">
       <option value=null selected>Select status</option>
-      <option value="Open">Open</option>
-      <option value="Ready">Ready</option>
+      <option value="Ready for test">Ready for test</option>
       <option value="Done">Done</option>
-      <option value="Reject">Reject</option>
+      <option value="Rejected">Rejected</option>
     </select>
     <label *ngIf="BugForm?.get('status')?.errors?.required && (BugForm?.get('status')?.dirty || BugForm?.get('status')?.touched)" class="error"> *Status is required.</label>
   </div>
