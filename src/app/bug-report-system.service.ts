@@ -15,7 +15,15 @@ export class BugReportSystemService {
     return this.http.get<Bug[]>('https://bug-report-system-server.herokuapp.com/bugs?size=1000');
   }
 
+  getById(bugId: string): Observable<Bug> {
+    return this.http.get<Bug>('https://bug-report-system-server.herokuapp.com/bugs/' + bugId);
+  }
+
   postBugs(bug: Bug): Observable<any> {
     return this.http.post<Bug>('https://bug-report-system-server.herokuapp.com/bugs', bug);
+  }
+
+  putBugs(bug: Bug, bugId: string): Observable<any> {
+    return this.http.put<Bug>('https://bug-report-system-server.herokuapp.com/bugs/' + bugId, bug);
   }
 }

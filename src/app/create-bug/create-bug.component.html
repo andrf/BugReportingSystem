@@ -1,9 +1,10 @@
-<h4 >Create a new bug</h4>
-<form [formGroup]="newBugForm" (ngSubmit)="createBug()">
+<h4 >{{formTitle}} bug</h4>
+<form [formGroup]="BugForm" (ngSubmit)="submitBug()">
+  <button type="button" class="btn  btn-secondary btn-block" (click)="goHome();">Back</button>
   <div class="form-group">
     <label for="inputTitle">Title</label>
     <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" formControlName="title">
-    <label *ngIf="newBugForm?.get('title')?.errors?.required && (newBugForm?.get('title')?.dirty || newBugForm?.get('title')?.touched)" class="error"> *Title is required.</label>
+    <label *ngIf="BugForm?.get('title')?.errors?.required && (BugForm?.get('title')?.dirty || BugForm?.get('title')?.touched)" class="error"> *Title is required.</label>
   </div>
 
   <div class="form-group">
@@ -14,7 +15,7 @@
       <option value=1 >Major</option>
       <option value=0 >Critical</option>
     </select>
-    <label *ngIf="newBugForm?.get('priority')?.errors?.required && (newBugForm?.get('priority')?.dirty || newBugForm?.get('priority')?.touched)" class="error"> *Priority is required.</label>
+    <label *ngIf="BugForm?.get('priority')?.errors?.required && (BugForm?.get('priority')?.dirty || BugForm?.get('priority')?.touched)" class="error"> *Priority is required.</label>
   </div>
 
   <div class="form-group">
@@ -25,26 +26,30 @@
       <option value="PO">PO</option>
       <option value="DEV">DEV</option>
     </select>
-    <label *ngIf="newBugForm?.get('reporter')?.errors?.required && (newBugForm?.get('reporter')?.dirty || newBugForm?.get('reporter')?.touched)" class="error"> *Reporter is required.</label>
+    <label *ngIf="BugForm?.get('reporter')?.errors?.required && (BugForm?.get('reporter')?.dirty || BugForm?.get('reporter')?.touched)" class="error"> *Reporter is required.</label>
   </div>
 
   <div class="form-group">
     <label for="inputStatus">Status</label>
     <select class="form-control" id="inputStatus" formControlName="status">
       <option value=null selected>Select status</option>
+      <option value="Open">Open</option>
       <option value="Ready">Ready</option>
       <option value="Done">Done</option>
       <option value="Reject">Reject</option>
     </select>
-    <label *ngIf="newBugForm?.get('status')?.errors?.required && (newBugForm?.get('status')?.dirty || newBugForm?.get('status')?.touched)" class="error"> *Status is required.</label>
+    <label *ngIf="BugForm?.get('status')?.errors?.required && (BugForm?.get('status')?.dirty || BugForm?.get('status')?.touched)" class="error"> *Status is required.</label>
   </div>
 
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Description</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
-    <label *ngIf="newBugForm?.get('description')?.errors?.required && (newBugForm?.get('description')?.dirty || newBugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
+    <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
   </div>
 
-  <button type="submit" class="btn btn-primary btn-block" [disabled]="newBugForm.invalid">Create</button>
-  <button type="reset" class="btn  btn-secondary btn-block">Reset</button>
+  <button type="submit" class="btn btn-primary btn-block" [disabled]="BugForm.invalid">Submit</button>
+  <button type="reset" *ngIf="onCreateStatus;else editMode" class="btn  btn-secondary btn-block">Reset</button>
 </form>
+<ng-template #editMode>
+  <button type="button" class="btn  btn-secondary btn-block" (click)="reloadForm();">Cancel</button>
+</ng-template>
