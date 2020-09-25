@@ -40,10 +40,23 @@
   </div>
 
   <div class="form-group">
-    <label for="exampleFormControlTextarea1">Description</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
+    <label for="descriptionBug">Description</label>
+    <textarea class="form-control" id="descriptionBug" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
     <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
   </div>
+
+  <div formArrayName="comments"
+    *ngFor="let comment of getArrayControls().controls; let i = index;">
+    <div [formGroupName]="i">
+      <input formControlName="reporter" placeholder="Comment reporter">
+      <input formControlName="description" placeholder="Comment description">
+      <button type="button" class="btn btn-secondary" (click)="removeComment(i)">Remove comments</button>
+    </div>
+  </div>
+
+    <div>
+      <button type="button" class="btn btn-secondary" (click)="addComments()">Create comments</button>
+    </div>
 
   <button type="submit" class="btn btn-primary btn-block" [disabled]="BugForm.invalid">Submit</button>
   <button type="reset" *ngIf="onCreateStatus;else editMode" class="btn  btn-secondary btn-block">Reset</button>

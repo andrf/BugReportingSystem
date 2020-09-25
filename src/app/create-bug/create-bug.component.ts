@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BugReportSystemService} from '../bug-report-system.service';
 import {Bug} from '../bug';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,13 +11,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CreateBugComponent implements OnInit {
   bug = {} as Bug;
+  //comments = {} as Comment;
   public bugId: null;
   public BugForm: FormGroup;
   formTitle = 'Create a new';
   clearForm = 'Reset';
   onCreateStatus = true;
+  comments: FormArray;
 
-  constructor(private bugService: BugReportSystemService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private bugService: BugReportSystemService, private router: Router, private activatedRoute: ActivatedRoute, private bugform: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -31,13 +33,31 @@ export class CreateBugComponent implements OnInit {
   }
 
   private initializeBugForm(): void {
-    this.BugForm = new FormGroup({
+    this.BugForm = this.bugform.group({
       title: new FormControl(this.bug.title, Validators.required),
       priority: new FormControl(this.bug.priority, Validators.required),
       reporter: new FormControl(this.bug.reporter, Validators.required),
       status: new FormControl(this.bug.status, Validators.required),
-      description: new FormControl(this.bug.description, Validators.required)
+      description: new FormControl(this.bug.description, Validators.required),
+      comments: this.bugform.array([])
     });
+  }
+
+  createComment(): FormGroup {
+    return this.bugform.group({
+      reporter: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+    });
+  }
+
+  removeComment(i: number): void {
+    const control = <FormArray>this.BugForm.controls['comments'];
+    control.removeAt(i);
+  }
+
+  addComments(): void {
+    this.comments = this.BugForm.get('comments') as FormArray;
+    this.comments.push(this.createComment());
   }
 
   public submitBug(): void {
@@ -47,6 +67,7 @@ export class CreateBugComponent implements OnInit {
     this.bug.reporter = this.BugForm.get('reporter').value;
     this.bug.status = this.BugForm.get('status').value;
     this.bug.description = this.BugForm.get('description').value;
+    this.bug.comments = this.BugForm.get('comments').value;
 
     (this.onCreateStatus) ? this.createBug() : this.editBug();
 }
@@ -86,6 +107,7 @@ export class CreateBugComponent implements OnInit {
     );
   }
 
-
-
+  getArrayControls(): FormArray{
+    return (this.BugForm.get('comments') as FormArray);
+  }
 }

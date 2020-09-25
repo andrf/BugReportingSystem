@@ -1,7 +1,7 @@
 <div *ngIf="bugListExist();else no_data">
-  <div>
-    <button (click)="createNewBug()"> Report Bug </button>
-  </div>
+
+  <button type="button" class="btn-secondary pull-left -caret-square-o-left margin:auto" (click)="createNewBug()"> Report Bug </button>
+
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
