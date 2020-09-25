@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BugReportSystemService} from '../bug-report-system.service';
 import {Bug} from '../bug';
 import {Router} from '@angular/router';
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'app-bug-list',
@@ -9,7 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./bug-list.component.scss']
 })
 export class BugListComponent implements OnInit {
-  bugs: Bug[] = [];
+  bugs: Bug[] = null;
   sorting = {
     column: '',
     isAsc: true
@@ -22,7 +23,10 @@ export class BugListComponent implements OnInit {
   }
 
   getBugs(): void {
-    this.bugService.getBugs().subscribe(bugList => this.bugs = bugList);
+    timer(1000).subscribe(x => {
+      this.bugService.getBugs().subscribe(bugList => this.bugs = bugList);
+    });
+
   }
 
   sort(column: string): void {
@@ -74,8 +78,11 @@ export class BugListComponent implements OnInit {
     this.router.navigate(['/bug']);
   }
 
+  bugListExist(): boolean {
+    return this.bugs !== null;
+  }
+
   EditBug(bugId: string): void {
     this.router.navigate(['/bug', bugId]);
   }
-
 }

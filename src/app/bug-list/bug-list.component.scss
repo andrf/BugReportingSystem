@@ -7,3 +7,17 @@ table {
 th {
   cursor: pointer;
 }
+
+.bug-spinner {
+  background-image: url('~src/assets/bug-spinner.gif');
+}
+
+p {
+  text-align: center;
+  font-size: 25px;
+}
+
+#bug-spinner {
+  width: 250px;
+  height: 300px;
+}
