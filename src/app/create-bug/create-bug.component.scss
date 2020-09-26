@@ -1,6 +1,7 @@
 form {
   margin-right: 35%;
   margin-left: 35%;
+  margin-bottom: 50px;
 }
 
 h4 {
@@ -10,3 +11,20 @@ h4 {
 .error {
   color: red;
 }
+
+button.btn-danger {
+  margin-bottom: 15px;
+}
+
+button.btn-success {
+  margin-bottom: 20px;
+}
+
+.my-image {
+  background-image: url('../../assets/images/spider_bug.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+

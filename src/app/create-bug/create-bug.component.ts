@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {BugReportSystemService} from '../bug-report-system.service';
 import {Bug} from '../bug';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -16,8 +16,9 @@ export class CreateBugComponent implements OnInit {
   formTitle = 'Create a new';
   clearForm = 'Reset';
   onCreateStatus = true;
+  comments: FormArray;
 
-  constructor(private bugService: BugReportSystemService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private bugService: BugReportSystemService, private router: Router, private activatedRoute: ActivatedRoute, private bugform: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -31,14 +32,39 @@ export class CreateBugComponent implements OnInit {
   }
 
   private initializeBugForm(): void {
-    this.BugForm = new FormGroup({
+    this.BugForm = this.bugform.group({
       title: new FormControl(this.bug.title, Validators.required),
       priority: new FormControl(this.bug.priority, Validators.required),
       reporter: new FormControl(this.bug.reporter, Validators.required),
       status: new FormControl(this.bug.status, Validators.required),
-      description: new FormControl(this.bug.description, Validators.required)
+      description: new FormControl(this.bug.description, Validators.required),
+      comments: this.bugform.array([
+      ])
+    });
+    if (!this.onCreateStatus){
+      this.initComment();
+    }
+  }
+
+  createComment(comment?): void {
+    this.getArrayControls().push(
+     this.bugform.group({
+      reporter: new FormControl(comment?.reporter, Validators.required),
+      description: new FormControl(comment?.description, Validators.required),
+    }));
+  }
+
+  initComment(): void {
+    this.bug.comments.forEach(comment => {
+      this.createComment(comment);
     });
   }
+
+  removeComment(i: number): void {
+    const control = this.BugForm.controls.comments as FormArray;
+    control.removeAt(i);
+  }
+
 
   public submitBug(): void {
 
@@ -47,19 +73,14 @@ export class CreateBugComponent implements OnInit {
     this.bug.reporter = this.BugForm.get('reporter').value;
     this.bug.status = this.BugForm.get('status').value;
     this.bug.description = this.BugForm.get('description').value;
+    this.bug.comments = this.BugForm.get('comments').value;
 
     (this.onCreateStatus) ? this.createBug() : this.editBug();
 }
 
   reloadForm(): void {
     this.bug = this.activatedRoute.snapshot.data.bug;
-    this.BugForm.patchValue({
-      title: this.bug.title,
-      priority: this.bug.priority,
-      reporter: this.bug.reporter,
-      status: this.bug.status,
-      description: this.bug.description
-    });
+    this.initializeBugForm();
   }
 
   createBug(): void {
@@ -86,6 +107,7 @@ export class CreateBugComponent implements OnInit {
     );
   }
 
-
-
+  getArrayControls(): FormArray {
+    return (this.BugForm.get('comments') as FormArray);
+  }
 }
