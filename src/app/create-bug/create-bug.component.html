@@ -46,20 +46,19 @@
   </div>
   <div *ngIf="!onCreateStatus">
     <h5>Comments <button type="button" class="btn btn-success btn-sm" (click)="createComment()">Add <i class="fa fa-plus" aria-hidden="true"></i></button></h5>
-<!--    <button type="button" class="btn btn-success btn-sm" (click)="createComment()">Add <i class="fa fa-plus" aria-hidden="true"></i></button>-->
   </div>
 
   <div [formGroup]="comment" *ngFor="let comment of getArrayControls().controls; let i = index;">
     <div class="form-group">
-    <label for="reporterComment">Comment reporter</label>
-      <input type="text" class="form-control" id="reporterComment" formControlName="reporter"  placeholder="Reporter name">
-    <label *ngIf="BugForm?.get('reporter')?.errors?.required && (BugForm?.get('reporter')?.dirty || BugForm?.get('reporter')?.touched)" class="error"> *Description is required.</label>
+    <label for="reporterComment{{i}}">Comment reporter</label>
+      <input type="text" class="form-control" id="reporterComment{{i}}" formControlName="reporter"  placeholder="Reporter name">
+    <label *ngIf="comment?.get('reporter')?.errors?.required && (comment?.get('reporter')?.dirty || comment?.get('reporter')?.touched)" class="error"> *Reporter name is required.</label>
    </div>
 
     <div class="form-group">
-      <label for="descriptionComment">Comment description</label>
-      <textarea class="form-control" id="descriptionComment" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
-      <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
+      <label for="descriptionComment{{i}}">Comment description</label>
+      <textarea class="form-control" id="descriptionComment{{i}}" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
+      <label *ngIf="comment?.get('description')?.errors?.required && (comment?.get('description')?.dirty || comment?.get('description')?.touched)" class="error"> *Description is required.</label>
     </div>
 
     <div class="form-group">

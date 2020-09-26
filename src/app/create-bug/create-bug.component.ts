@@ -11,7 +11,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CreateBugComponent implements OnInit {
   bug = {} as Bug;
-  // comments = {} as Comment;
   public bugId: null;
   public BugForm: FormGroup;
   formTitle = 'Create a new';
@@ -56,7 +55,6 @@ export class CreateBugComponent implements OnInit {
   }
 
   initComment(): void {
-    console.log(this.bug.comments);
     this.bug.comments.forEach(comment => {
       this.createComment(comment);
     });
@@ -82,17 +80,7 @@ export class CreateBugComponent implements OnInit {
 
   reloadForm(): void {
     this.bug = this.activatedRoute.snapshot.data.bug;
-    if (!this.onCreateStatus){
-      this.initComment();
-    }
-    this.BugForm.patchValue({
-      title: this.bug.title,
-      priority: this.bug.priority,
-      reporter: this.bug.reporter,
-      status: this.bug.status,
-      description: this.bug.description,
-      comments: this.bug.comments
-    });
+    this.initializeBugForm();
   }
 
   createBug(): void {
