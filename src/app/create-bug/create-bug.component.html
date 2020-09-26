@@ -45,30 +45,29 @@
     <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
   </div>
   <div *ngIf="!onCreateStatus">
-    <button type="button" class="btn btn-secondary" (click)="createComment()">Create comments</button>
+    <h5>Comments <button type="button" class="btn btn-success btn-sm" (click)="createComment()">Add <i class="fa fa-plus" aria-hidden="true"></i></button></h5>
+<!--    <button type="button" class="btn btn-success btn-sm" (click)="createComment()">Add <i class="fa fa-plus" aria-hidden="true"></i></button>-->
   </div>
 
-    <div [formGroup]="comment" *ngFor="let comment of getArrayControls().controls; let i = index;">
+  <div [formGroup]="comment" *ngFor="let comment of getArrayControls().controls; let i = index;">
+    <div class="form-group">
+    <label for="reporterComment">Comment reporter</label>
+      <input type="text" class="form-control" id="reporterComment" formControlName="reporter"  placeholder="Reporter name">
+    <label *ngIf="BugForm?.get('reporter')?.errors?.required && (BugForm?.get('reporter')?.dirty || BugForm?.get('reporter')?.touched)" class="error"> *Description is required.</label>
+   </div>
 
-      <div class="form-group">
-      <label for="reporterComment">Comment reporter</label>
-        <input type="text" class="form-control" id="reporterComment" formControlName="reporter"  placeholder="Reporter name">
-      <label *ngIf="BugForm?.get('reporter')?.errors?.required && (BugForm?.get('reporter')?.dirty || BugForm?.get('reporter')?.touched)" class="error"> *Description is required.</label>
-     </div>
+    <div class="form-group">
+      <label for="descriptionComment">Comment description</label>
+      <textarea class="form-control" id="descriptionComment" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
+      <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
+    </div>
 
-      <div class="form-group">
-        <label for="descriptionComment">Comment description</label>
-        <textarea class="form-control" id="descriptionComment" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
-        <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
-      </div>
-
-      <div class="form-group">
-      <button type="button" class="btn btn-secondary" (click)="removeComment(i)">Remove comments</button>
+    <div class="form-group">
+      <button type="button" class="btn btn-danger btn-sm" (click)="removeComment(i)">Remove <i class="fa fa-trash" aria-hidden="true"></i></button>
     </div>
   </div>
 
-  <br>
-  <button type="submit" class="btn btn-primary btn-block" [disabled]="BugForm.invalid">Submit</button>
+  <button type="submit" class="btn btn-primary btn-block" [disabled]="BugForm.invalid">Submit </button>
   <button type="reset" *ngIf="onCreateStatus; else editMode" class="btn  btn-secondary btn-block">Reset</button>
 </form>
 <ng-template #editMode>
