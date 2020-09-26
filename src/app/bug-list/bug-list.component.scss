@@ -24,3 +24,12 @@ button.btn-secondary {
   margin-bottom: 20px;
   background: #1a1a1a;
 }
+
+button.btn-info {
+  visibility: hidden;
+}
+
+
+table tr:hover button.btn-info {
+  visibility:visible;
+}
