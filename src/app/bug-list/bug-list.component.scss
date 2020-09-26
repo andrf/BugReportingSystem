@@ -1,7 +1,4 @@
 table {
-  margin-right: 15%;
-  margin-left: 15%;
-  width: 70%;
   margin-bottom: 50px;
 }
 
@@ -21,4 +18,9 @@ p {
 #bug-spinner {
   width: 250px;
   height: 300px;
+}
+
+button.btn-secondary {
+  margin-bottom: 20px;
+  background: #1a1a1a;
 }
