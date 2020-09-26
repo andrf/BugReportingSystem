@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CreateBugComponent implements OnInit {
   bug = {} as Bug;
-  //comments = {} as Comment;
+  // comments = {} as Comment;
   public bugId: null;
   public BugForm: FormGroup;
   formTitle = 'Create a new';
@@ -39,26 +39,34 @@ export class CreateBugComponent implements OnInit {
       reporter: new FormControl(this.bug.reporter, Validators.required),
       status: new FormControl(this.bug.status, Validators.required),
       description: new FormControl(this.bug.description, Validators.required),
-      comments: this.bugform.array([])
+      comments: this.bugform.array([
+      ])
     });
+    if (!this.onCreateStatus){
+      this.initComment();
+    }
   }
 
-  createComment(): FormGroup {
-    return this.bugform.group({
-      reporter: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+  createComment(comment?): void {
+    this.getArrayControls().push(
+     this.bugform.group({
+      reporter: new FormControl(comment?.reporter, Validators.required),
+      description: new FormControl(comment?.description, Validators.required),
+    }));
+  }
+
+  initComment(): void {
+    console.log(this.bug.comments);
+    this.bug.comments.forEach(comment => {
+      this.createComment(comment);
     });
   }
 
   removeComment(i: number): void {
-    const control = <FormArray>this.BugForm.controls['comments'];
+    const control = this.BugForm.controls.comments as FormArray;
     control.removeAt(i);
   }
 
-  addComments(): void {
-    this.comments = this.BugForm.get('comments') as FormArray;
-    this.comments.push(this.createComment());
-  }
 
   public submitBug(): void {
 
@@ -74,12 +82,16 @@ export class CreateBugComponent implements OnInit {
 
   reloadForm(): void {
     this.bug = this.activatedRoute.snapshot.data.bug;
+    if (!this.onCreateStatus){
+      this.initComment();
+    }
     this.BugForm.patchValue({
       title: this.bug.title,
       priority: this.bug.priority,
       reporter: this.bug.reporter,
       status: this.bug.status,
-      description: this.bug.description
+      description: this.bug.description,
+      comments: this.bug.comments
     });
   }
 
@@ -107,7 +119,7 @@ export class CreateBugComponent implements OnInit {
     );
   }
 
-  getArrayControls(): FormArray{
+  getArrayControls(): FormArray {
     return (this.BugForm.get('comments') as FormArray);
   }
 }
