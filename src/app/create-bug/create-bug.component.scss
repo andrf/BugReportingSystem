@@ -20,3 +20,11 @@ button.btn-success {
   margin-bottom: 20px;
 }
 
+.my-image {
+  background-image: url('../../assets/images/spider_bug.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+

@@ -1,74 +1,103 @@
-<h4 >{{formTitle}} bug</h4>
-<form [formGroup]="BugForm" (ngSubmit)="submitBug()">
-  <div class="form-group">
-    <label for="inputTitle">Title</label>
-    <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" formControlName="title">
-    <label *ngIf="BugForm?.get('title')?.errors?.required && (BugForm?.get('title')?.dirty || BugForm?.get('title')?.touched)" class="error"> *Title is required.</label>
+<div class="row">
+  <div class="col-4 my-image"></div>
+  <div class="col-8">
+    <h4>{{formTitle}} bug</h4>
+    <form [formGroup]="BugForm" (ngSubmit)="submitBug()">
+      <div class="form-group">
+        <label for="inputTitle">Title</label>
+        <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" formControlName="title">
+        <label
+          *ngIf="BugForm?.get('title')?.errors?.required && (BugForm?.get('title')?.dirty || BugForm?.get('title')?.touched)"
+          class="error"> *Title is required.</label>
+      </div>
+
+      <div class="form-group">
+        <label for="inputPriority">Priority</label>
+        <select class="form-control" id="inputPriority" formControlName="priority">
+          <option value=null selected>Select priority</option>
+          <option value=1>Minor</option>
+          <option value=2>Major</option>
+          <option value=3>Critical</option>
+        </select>
+        <label
+          *ngIf="BugForm?.get('priority')?.errors?.required && (BugForm?.get('priority')?.dirty || BugForm?.get('priority')?.touched)"
+          class="error"> *Priority is required.</label>
+      </div>
+
+      <div class="form-group">
+        <label for="inputReporter">Reporter</label>
+        <select class="form-control" id="inputReporter" formControlName="reporter">
+          <option value=null selected>Select reporter</option>
+          <option value="QA">QA</option>
+          <option value="PO">PO</option>
+          <option value="DEV">DEV</option>
+        </select>
+        <label
+          *ngIf="BugForm?.get('reporter')?.errors?.required && (BugForm?.get('reporter')?.dirty || BugForm?.get('reporter')?.touched)"
+          class="error"> *Reporter is required.</label>
+      </div>
+
+      <div class="form-group">
+        <label for="inputStatus">Status</label>
+        <select class="form-control" id="inputStatus" formControlName="status">
+          <option value=null selected>Select status</option>
+          <option value="Ready for test">Ready for test</option>
+          <option value="Done">Done</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <label
+          *ngIf="BugForm?.get('status')?.errors?.required && (BugForm?.get('status')?.dirty || BugForm?.get('status')?.touched)"
+          class="error"> *Status is required.</label>
+      </div>
+
+      <div class="form-group">
+        <label for="descriptionBug">Description</label>
+        <textarea class="form-control" id="descriptionBug" rows="2" formControlName="description"
+                  placeholder="Enter description"></textarea>
+        <label
+          *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)"
+          class="error"> *Description is required.</label>
+      </div>
+      <div *ngIf="!onCreateStatus">
+        <h5>Comments
+          <button type="button" class="btn btn-success btn-sm" (click)="createComment()">Add <i class="fa fa-plus"
+                                                                                                aria-hidden="true"></i>
+          </button>
+        </h5>
+      </div>
+
+      <div [formGroup]="comment" *ngFor="let comment of getArrayControls().controls; let i = index;">
+        <div class="form-group">
+          <label for="reporterComment{{i}}">Comment reporter</label>
+          <input type="text" class="form-control" id="reporterComment{{i}}" formControlName="reporter"
+                 placeholder="Reporter name">
+          <label
+            *ngIf="comment?.get('reporter')?.errors?.required && (comment?.get('reporter')?.dirty || comment?.get('reporter')?.touched)"
+            class="error"> *Reporter name is required.</label>
+        </div>
+
+        <div class="form-group">
+          <label for="descriptionComment{{i}}">Comment description</label>
+          <textarea class="form-control" id="descriptionComment{{i}}" rows="2" formControlName="description"
+                    placeholder="Enter description"></textarea>
+          <label
+            *ngIf="comment?.get('description')?.errors?.required && (comment?.get('description')?.dirty || comment?.get('description')?.touched)"
+            class="error"> *Description is required.</label>
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-danger btn-sm" (click)="removeComment(i)">Remove <i class="fa fa-trash"
+                                                                                                   aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="BugForm.invalid">Submit</button>
+      <button type="reset" *ngIf="onCreateStatus; else editMode" class="btn  btn-secondary btn-block">Reset</button>
+    </form>
+    <ng-template #editMode>
+      <button type="button" class="btn  btn-secondary btn-block" (click)="reloadForm();">Cancel</button>
+    </ng-template>
   </div>
-
-  <div class="form-group">
-    <label for="inputPriority">Priority</label>
-    <select class="form-control" id="inputPriority" formControlName="priority">
-      <option value=null selected>Select priority</option>
-      <option value=1 >Minor</option>
-      <option value=2 >Major</option>
-      <option value=3 >Critical</option>
-    </select>
-    <label *ngIf="BugForm?.get('priority')?.errors?.required && (BugForm?.get('priority')?.dirty || BugForm?.get('priority')?.touched)" class="error"> *Priority is required.</label>
-  </div>
-
-  <div class="form-group">
-    <label for="inputReporter">Reporter</label>
-    <select class="form-control" id="inputReporter" formControlName="reporter">
-      <option value=null selected>Select reporter</option>
-      <option value="QA">QA</option>
-      <option value="PO">PO</option>
-      <option value="DEV">DEV</option>
-    </select>
-    <label *ngIf="BugForm?.get('reporter')?.errors?.required && (BugForm?.get('reporter')?.dirty || BugForm?.get('reporter')?.touched)" class="error"> *Reporter is required.</label>
-  </div>
-
-  <div class="form-group">
-    <label for="inputStatus">Status</label>
-    <select class="form-control" id="inputStatus" formControlName="status">
-      <option value=null selected>Select status</option>
-      <option value="Ready for test">Ready for test</option>
-      <option value="Done">Done</option>
-      <option value="Rejected">Rejected</option>
-    </select>
-    <label *ngIf="BugForm?.get('status')?.errors?.required && (BugForm?.get('status')?.dirty || BugForm?.get('status')?.touched)" class="error"> *Status is required.</label>
-  </div>
-
-  <div class="form-group">
-    <label for="descriptionBug">Description</label>
-    <textarea class="form-control" id="descriptionBug" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
-    <label *ngIf="BugForm?.get('description')?.errors?.required && (BugForm?.get('description')?.dirty || BugForm?.get('description')?.touched)" class="error"> *Description is required.</label>
-  </div>
-  <div *ngIf="!onCreateStatus">
-    <h5>Comments <button type="button" class="btn btn-success btn-sm" (click)="createComment()">Add <i class="fa fa-plus" aria-hidden="true"></i></button></h5>
-  </div>
-
-  <div [formGroup]="comment" *ngFor="let comment of getArrayControls().controls; let i = index;">
-    <div class="form-group">
-    <label for="reporterComment{{i}}">Comment reporter</label>
-      <input type="text" class="form-control" id="reporterComment{{i}}" formControlName="reporter"  placeholder="Reporter name">
-    <label *ngIf="comment?.get('reporter')?.errors?.required && (comment?.get('reporter')?.dirty || comment?.get('reporter')?.touched)" class="error"> *Reporter name is required.</label>
-   </div>
-
-    <div class="form-group">
-      <label for="descriptionComment{{i}}">Comment description</label>
-      <textarea class="form-control" id="descriptionComment{{i}}" rows="2" formControlName="description"  placeholder="Enter description"></textarea>
-      <label *ngIf="comment?.get('description')?.errors?.required && (comment?.get('description')?.dirty || comment?.get('description')?.touched)" class="error"> *Description is required.</label>
-    </div>
-
-    <div class="form-group">
-      <button type="button" class="btn btn-danger btn-sm" (click)="removeComment(i)">Remove <i class="fa fa-trash" aria-hidden="true"></i></button>
-    </div>
-  </div>
-
-  <button type="submit" class="btn btn-primary btn-block" [disabled]="BugForm.invalid">Submit </button>
-  <button type="reset" *ngIf="onCreateStatus; else editMode" class="btn  btn-secondary btn-block">Reset</button>
-</form>
-<ng-template #editMode>
-  <button type="button" class="btn  btn-secondary btn-block" (click)="reloadForm();">Cancel</button>
-</ng-template>
+  <div class="col-4"></div>
+</div>
